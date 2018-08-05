@@ -69,6 +69,7 @@ public class ItemController {
 	@ResponseBody
 	public E3Result deleteItem(@RequestParam Map<String,String> map) {
 		String ids = map.get("ids");
+		System.out.println();
 		int state = Integer.valueOf(map.get("state"));
 		E3Result result = itemService.deleteItem(ids,state);
 		return result;
