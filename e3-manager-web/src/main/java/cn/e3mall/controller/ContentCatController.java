@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import cn.e3mall.common.pojo.EasyUITreeNode;
 import cn.e3mall.common.utils.E3Result;
@@ -44,6 +41,34 @@ public class ContentCatController {
 		E3Result e3Result = contentCategoryService.addContentCategory(parentId, name);
 		return e3Result;
 	}
-	
+
+	/**
+	* @Decsription: 修改节点
+	* @Param:[parentId, name]
+	* @Author:heliang.wang
+	* @Date: 2018/8/6下午2:46
+	* @return:cn.e3mall.common.utils.E3Result
+	*/
+	@RequestMapping(value="/content/category/update", method=RequestMethod.POST)
+	@ResponseBody
+	public E3Result updateContentCategory(Long id, String name) {
+		//调用服务修改节点
+		E3Result e3Result = contentCategoryService.addContentCategory(id, name);
+		return e3Result;
+	}
+
+	/**
+	* @Decsription: 删除节点
+	* @Param:[id]
+	* @Author:heliang.wang
+	* @Date: 2018/8/6下午2:54
+	* @return:cn.e3mall.common.utils.E3Result
+	*/
+	@RequestMapping("/content/category/delete")
+	@ResponseBody
+	public E3Result deleteContentCategory(Long id){
+		E3Result result = contentCategoryService.deleteContentCategory(id);
+		return result;
+	}
 	
 }

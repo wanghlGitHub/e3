@@ -9,4 +9,6 @@ public interface ContentCategoryService {
 
 	List<EasyUITreeNode> getContentCatList(long parentId);
 	E3Result addContentCategory(long parentId, String name);
+	E3Result updateContentCategory(long nodeId, String name);
+	E3Result deleteContentCategory(long nodeId);
 }

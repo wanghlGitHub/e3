@@ -38,6 +38,7 @@ $(function(){
         			}
         		});
         	}else{
+        	    alert(node.id);
         		$.post("/content/category/update",{id:node.id,name:node.text});
         	}
         }
@@ -62,7 +63,7 @@ function menuHandler(item){
 	}else if(item.name === "delete"){
 		$.messager.confirm('确认','确定删除名为 '+node.text+' 的分类吗？',function(r){
 			if(r){
-				$.post("/content/category/delete/",{id:node.id},function(){
+				$.post("/content/category/delete",{id:node.id},function(){
 					tree.tree("remove",node.target);
 				});	
 			}
