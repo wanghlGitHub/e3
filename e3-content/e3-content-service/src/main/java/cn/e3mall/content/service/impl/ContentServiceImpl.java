@@ -3,6 +3,9 @@ package cn.e3mall.content.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import cn.e3mall.common.pojo.EasyUIDataGridResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +28,25 @@ public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private TbContentMapper contentMapper;
-	
+
+	@Override
+	public EasyUIDataGridResult getContentList(long categoryId, int page, int rows) {
+		//设置分页信息
+		PageHelper.startPage(page, rows);
+		//执行查询
+		TbContentExample example = new TbContentExample();
+		Criteria createCriteria = example.createCriteria();
+		createCriteria.andCategoryIdEqualTo(categoryId);
+		//获取查询结果
+		List<TbContent> list = contentMapper.selectByExample(example);
+		PageInfo<TbContent> pageInfo = new PageInfo<>(list);
+		EasyUIDataGridResult result = new EasyUIDataGridResult();
+		result.setRows(list);
+		result.setTotal(pageInfo.getTotal());
+		//返回结果
+		return result;
+	}
+
 	@Override
 	public E3Result addContent(TbContent content) {
 		//将内容数据插入到内容表
@@ -53,6 +74,33 @@ public class ContentServiceImpl implements ContentService {
 		//执行查询
 		List<TbContent> list = contentMapper.selectByExampleWithBLOBs(example);
 		return list;
+	}
+
+	@Override
+	public E3Result getContent(long id) {
+		TbContent content = contentMapper.selectByPrimaryKey(id);
+		return E3Result.ok(content);
+	}
+
+	@Override
+	public E3Result updateContent(TbContent content) {
+		// 填充属性
+		content.setUpdated(new Date());
+		//更新内容
+		contentMapper.updateByPrimaryKey(content);
+		//返回结果
+		return E3Result.ok();
+	}
+
+	@Override
+	public E3Result deleteContent(String ids) {
+		String[] idList = ids.split(",");
+		for(String id : idList){
+			//删除内容
+			contentMapper.deleteByPrimaryKey(Long.valueOf(id));
+		}
+		//返回结果
+		return E3Result.ok();
 	}
 
 }
